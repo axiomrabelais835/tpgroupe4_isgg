@@ -1,0 +1,72 @@
+import * as React from 'react'
+import { Command as CommandPrimitive } from 'cmdk'
+import { Search } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+
+const Command = React.forwardRef(({ className, ...props }, ref) => (
+  <CommandPrimitive
+    ref={ref}
+    className={cn('flex h-full w-full flex-col overflow-hidden rounded-lg bg-card text-card-foreground', className)}
+    {...props}
+  />
+))
+Command.displayName = CommandPrimitive.displayName
+
+function CommandDialog({ children, ...props }) {
+  return (
+    <Dialog {...props}>
+      <DialogContent className="overflow-hidden p-0 shadow-2xl sm:max-w-xl">
+        <DialogTitle className="sr-only">Recherche globale</DialogTitle>
+        <DialogDescription className="sr-only">Recherchez un étudiant, une formation ou une inscription</DialogDescription>
+        <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-input-wrapper]_svg]:h-4 [&_[cmdk-input-wrapper]_svg]:w-4 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-2">
+          {children}
+        </Command>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+const CommandInput = React.forwardRef(({ className, ...props }, ref) => (
+  <div className="flex items-center border-b border-border px-3" cmdk-input-wrapper="">
+    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+    <CommandPrimitive.Input
+      ref={ref}
+      className={cn(
+        'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
+        className
+      )}
+      {...props}
+    />
+  </div>
+))
+CommandInput.displayName = CommandPrimitive.Input.displayName
+
+const CommandList = React.forwardRef(({ className, ...props }, ref) => (
+  <CommandPrimitive.List ref={ref} className={cn('max-h-[360px] overflow-y-auto overflow-x-hidden p-2', className)} {...props} />
+))
+CommandList.displayName = CommandPrimitive.List.displayName
+
+const CommandEmpty = React.forwardRef((props, ref) => (
+  <CommandPrimitive.Empty ref={ref} className="py-6 text-center text-sm text-muted-foreground" {...props} />
+))
+CommandEmpty.displayName = CommandPrimitive.Empty.displayName
+
+const CommandGroup = React.forwardRef(({ className, ...props }, ref) => (
+  <CommandPrimitive.Group ref={ref} className={cn('overflow-hidden p-1 text-foreground', className)} {...props} />
+))
+CommandGroup.displayName = CommandPrimitive.Group.displayName
+
+const CommandItem = React.forwardRef(({ className, ...props }, ref) => (
+  <CommandPrimitive.Item
+    ref={ref}
+    className={cn(
+      'relative flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-sm outline-none data-[selected=true]:bg-muted data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50',
+      className
+    )}
+    {...props}
+  />
+))
+CommandItem.displayName = CommandPrimitive.Item.displayName
+
+export { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem }

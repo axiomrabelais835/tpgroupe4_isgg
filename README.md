@@ -157,7 +157,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Créer les tables, les données de démonstration et le lien de stockage des photos :
+Créer les tables, insérer le compte administrateur et le lien de stockage des photos :
 
 ```bash
 php artisan migrate:fresh --seed
@@ -191,31 +191,50 @@ L'application est accessible sur <http://localhost:5173>.
 
 ### 5. Se connecter
 
-Ouvrir <http://localhost:5173> et utiliser un compte de démonstration ci-dessous.
+Ouvrir <http://localhost:5173> et utiliser le compte administrateur ci-dessous.
 
 ---
 
-## Comptes de démonstration
+## Compte administrateur
 
 | Rôle | E-mail | Mot de passe |
 | --- | --- | --- |
-| Administrateur | `admin@gestion-formation.com` | `password` |
-| Gestionnaire | `gestionnaire@gestion-formation.com` | `password` |
+| Administrateur | `rabelaisallomavo@gmail.com` | `Rabelais835@` |
 
-Les données générées par le seeder comprennent :
-
-- **80 étudiants**
-- **6 catégories** et **10 formations**
-- **150 inscriptions** réparties sur 12 mois
-- **~130 paiements** cohérents avec les inscriptions
-- Matricules au format `ETU-2026-0001`
-
-Pour régénérer ces données à tout moment :
+Pour créer ou recréer ce compte administrateur :
 
 ```bash
 cd backend
 php artisan migrate:fresh --seed
 ```
+
+Ce compte est le seul compte créé par le seeder. Aucune autre donnée de démonstration n'est insérée en base de données.
+
+### Créer un compte administrateur manuellement
+
+Si vous préférez créer le compte administrateur sans exécuter le seeder complet, utilisez l'outil Tinker de Laravel :
+
+```bash
+cd backend
+php artisan tinker
+```
+
+Puis, dans l'interpréteur interactif :
+
+```php
+use App\Models\Utilisateur;
+use Illuminate\Support\Facades\Hash;
+
+Utilisateur::create([
+    'nom' => 'Administrateur',
+    'email' => 'rabelaisallomavo@gmail.com',
+    'mot_de_passe' => Hash::make('Rabelais835@'),
+    'role' => 'admin',
+    'email_verified_at' => now(),
+]);
+```
+
+Quitter Tinker avec `exit` ou `Ctrl+D`.
 
 ---
 
